@@ -1,0 +1,121 @@
+import styled from 'styled-components'
+
+export const Titulo=styled.Text`
+  color: white;
+  font-size: 30px;
+  text-align: center;
+  width: 90%;
+  background:rgba(0,0,0,0.5);
+  
+`;
+
+export const Titulo2=styled.Text`
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  width: 100%;
+  background:rgba(0,0,0,0.5);
+  margin:10px;
+`;
+
+
+export const FotoPerfil=styled.View`
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    align-self: center;
+    margin-bottom: 30px;
+    margin-top: -200;
+    border-radius: 90;
+
+    
+`;
+export const BtnA=styled.Text`
+    width: 200px;
+    height: 50px;
+    background-color:black;
+    align-self: center;
+    color: white;
+    font-size: 20px;
+    margin-top: 15px;
+    text-align:center;
+    border-radius: 25;
+    
+`;
+export const Container = styled.TextInput`
+  background-color: white;
+  border-radius: 25;
+  text-align: center;
+  color: blue;
+  font-weight: bold;
+  align-self: center;
+  width: 50%;
+  display: flex;
+
+`;
+export const Contai = styled.TextInput`
+  background-color: white;
+  border-radius: 25;
+  text-align: center;
+  color: blue;
+  font-weight: bold;
+  align-self: center;
+  width: 30%;
+ display: flex;
+`;
+
+export const BtnB=styled.Text`
+  text-align: center;
+  color: white;
+  letter-spacing: 5;
+  border-radius: 15;
+  background:transparent;
+  width: 100%;
+  align-self: center;
+  font-size:25;
+  padding-top:5;
+  padding-bottom: 7;
+`;
+
+export const Elemento = styled.Text`
+  text-align: center;
+  color: white;
+  font-size: 20;
+  align-self: center; 
+  margin:3px;
+`;
+
+export const InputA = styled.TextInput`
+  background-color: white;
+  border-radius: 25;
+  text-align: center;
+  color: blue;
+  font-weight: bold;
+  align-self: center;
+  width: 60%;
+  height: 40px;
+  margin-top: 30px;
+`;
+
+export const BtnLog =styled.Text`
+  text-align: center;
+  color: white;
+  letter-spacing: 5;
+  border-radius: 15;
+  background-color:transparent;
+  width: 60%;
+  align-self: center;
+  font-size:25;
+  padding-top:5;
+  border-radius: 25;
+`;
+
+
+export const BtnLogOut=styled.Text`
+    font-size: 25px;
+    color: white;
+    margin-bottom:40px;
+    text-align: right;
+   margin-top: 45px;
+   background-color: rgba(0,0,0,0.5);
+`;
