@@ -1,10 +1,11 @@
 import React,{useState,useEffect} from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, Image, ImageBackground } from 'react-native';
-import Bg from '../images/bg1.jpg';
+import Bg from '../images/bg4.jpg';
 import { Titulo2, Titulo,FotoPerfil,BtnA,BtnLogOut } from '../styles/GlobaStyles';
 import * as ImagePicker from 'expo-image-picker';
 import {fd, st, auth} from '../../firebase'
+import Logo from '../images/ut0000.png'
 
 export const About=(props)=>{
   const [item, setItem] = useState([]);
@@ -96,7 +97,10 @@ const uploadImage = async(image, path, name)=>{
   return(
     <ImageBackground source={Bg} resizeMode="cover" style={styles.image}>
    
-      
+   <Image
+       style={styles.tinyLogo}
+       source={Logo}
+      />
        {item.map((p)=>  {
      
          return(
@@ -137,5 +141,11 @@ const styles = StyleSheet.create({
       width: 150,
       height: 150,
       borderRadius:90,
+    },
+      
+    tinyLogo: {
+      width: 300,
+      height: 70,
+      alignSelf:'center',
     },
   });

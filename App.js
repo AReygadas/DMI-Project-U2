@@ -6,6 +6,7 @@ import { SignIn } from './src/pages/Login';
 import { SignUp } from './src/pages/SingUp';
 import { Home } from './src/pages/Home';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {

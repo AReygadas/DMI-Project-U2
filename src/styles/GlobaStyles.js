@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled,{keyframes} from 'styled-components'
+
 
 export const Titulo=styled.Text`
   color: white;
@@ -92,7 +93,7 @@ export const InputA = styled.TextInput`
   color: blue;
   font-weight: bold;
   align-self: center;
-  width: 60%;
+  width: 80%;
   height: 40px;
   margin-top: 30px;
 `;
@@ -100,10 +101,10 @@ export const InputA = styled.TextInput`
 export const BtnLog =styled.Text`
   text-align: center;
   color: white;
-  letter-spacing: 5;
+  letter-spacing: 3;
   border-radius: 15;
   background-color:transparent;
-  width: 60%;
+  width: 50%;
   align-self: center;
   font-size:25;
   padding-top:5;
@@ -112,10 +113,61 @@ export const BtnLog =styled.Text`
 
 
 export const BtnLogOut=styled.Text`
-    font-size: 25px;
+  font-size: 25px;
+  color: white;
+  margin-bottom:40px;
+  text-align: right;
+  margin-top: 45px;
+  background-color: rgba(0,0,0,0.5);
+`;
+
+export const Cristal=styled.View` 
+  position: relative;
+
+  width: 350px;
+  height: 500px;
+  margin: 30px;
+  box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  borderTopWidth: 1px; 
+  borderTopColor: rgba(255,255,255,0.5);
+  borderLeftWidth: 1px; 
+  borderLeftColor: rgba(255,255,255,0.5);
+
+`;
+ 
+ export const Icono1=styled.Image`
+    align-self: center;
+    width: 150px;
+    height: 150px;
+  `;
+ 
+ export const TextA= styled.Text`
+    position: relative;
     color: white;
-    margin-bottom:40px;
-    text-align: right;
-   margin-top: 45px;
-   background-color: rgba(0,0,0,0.5);
+    `;
+ export const TextB= styled.Text`
+    position: absolute;
+    margin-left: 205px;
+    color: #00D1FF;
+ `;
+ export const Footh=styled.View`    
+    position: absolute;
+    justify-content: center;
+    bottom: 10px;
+    padding-left: 35px;
+    width: 90%;
+ `;
+
+export const BtnGoogle=styled.Text` 
+  color:red;
+  background: white;
+  font-size: 30px;
+  border-radius: 15px;
+  padding:0px 15px 0px 15px;
 `;

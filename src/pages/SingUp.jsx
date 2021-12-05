@@ -1,15 +1,16 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { ImageBackground,StyleSheet,Image,Text } from "react-native";
-import {  Titulo,InputA, BtnLog } from "../styles/GlobaStyles";
+import {  Titulo,InputA, BtnLog,Cristal } from "../styles/GlobaStyles";
 import { LinearGradient } from "expo-linear-gradient";
 import {auth,fd} from "../../firebase";
-import Bg0 from '../images/24.jpg'
-import Logo from '../images/ut0000.png'
+import Bg0 from '../images/bg3.jpg'
+
 
 export const SignUp = () => {
 
   const navigation = useNavigation()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordC, setPasswordC] = useState('')
@@ -55,10 +56,8 @@ export const SignUp = () => {
 
   return(
     <ImageBackground source={Bg0} resizeMode="cover" style={styles.image} blurRadius={1}>
-      <Image
-       style={styles.tinyLogo}
-       source={Logo}
-      />
+    
+      <Cristal>
       <Titulo>SignUp</Titulo>
       <InputA value={datos.nombre} onChangeText={text=>handleChangeState('nombre', text)}
         placeholderTextColor="gray" 
@@ -96,6 +95,7 @@ export const SignUp = () => {
         SingUp
       </BtnLog>
       </LinearGradient>
+      </Cristal>
     </ImageBackground>
     )
   }

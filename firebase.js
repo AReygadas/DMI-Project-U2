@@ -1,13 +1,11 @@
 
 import * as firebase from "firebase";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "firebase/app";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCsPBLIqnf_7nvWNQkm4aBDtfyYUCseaps",
   authDomain: "dmi-u2p.firebaseapp.com",
+  databaseURL: "https://dmi-u2p-default-rtdb.firebaseio.com",
   projectId: "dmi-u2p",
   storageBucket: "dmi-u2p.appspot.com",
   messagingSenderId: "858332588715",
@@ -27,4 +25,5 @@ const auth = firebase.auth();
 const fd = firebase.firestore();
 const db = firebase.database();
 const st = firebase.storage();
+
 export { auth,fd,db,st};
