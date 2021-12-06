@@ -5,6 +5,7 @@ import {  Titulo,InputA, BtnLog, Cristal,TextA,TextB,Footh,BtnGoogle } from "../
 import { LinearGradient } from "expo-linear-gradient";
 import {auth} from "../../firebase";
 import Bg0 from '../images/bg4.jpg'
+import i18n from '../../localization/i18n'
 
 export const SignIn = () => {
 
@@ -41,6 +42,7 @@ export const SignIn = () => {
       Animated.timing(spinValue, {
         toValue: 1,
         duration: 7000,
+        useNativeDriver: true, 
         easing: Easing.linear,
       })
     ).start()
@@ -72,15 +74,15 @@ export const SignIn = () => {
     />
 
       <Cristal>
-        <Titulo>SignIn</Titulo>
+        <Titulo>{i18n.t("SigIn")}</Titulo>
         <InputA  value={email} onChangeText={text=>setEmail(text)}
         placeholderTextColor="gray" 
-        placeholder="Usuario"
+        placeholder={i18n.t("User")}
         />
         <InputA  value={password} onChangeText={text=>setPassword(text)} 
         secureTextEntry={true} 
         placeholderTextColor="gray" 
-        placeholder="Contraseña"
+        placeholder={i18n.t("Pass")}
         />
         
         <LinearGradient 
@@ -91,13 +93,13 @@ export const SignIn = () => {
         >
         <BtnLog onPress={handleLogin}>
          
-      LogIn
+        {i18n.t("SigIn")}
       </BtnLog>
       </LinearGradient>
         
 
         <Footh>
-        <TextA>Dont't have an account?</TextA><TextB onPress={handleSignUp}>Sign up</TextB>
+        <TextA>{i18n.t("NewCount")}</TextA><TextB onPress={handleSignUp}>{i18n.t("SignUp")}</TextB>
         </Footh>
      
       </Cristal>

@@ -8,7 +8,8 @@ import { About }from './About';
 import { Lista } from './List';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { auth } from '../../firebase';
-
+import { Shop } from './Shop';
+import {CreateItem} from '../pages/CreateItem'
 
 
 const Tab = createBottomTabNavigator();
@@ -16,8 +17,13 @@ const Tab = createBottomTabNavigator();
 export const Home =()=> {
 
   const navigation = useNavigation();
-  const[lista, setLista]= useState([])
+  const[lista, setLista]= useState([]);
+  const[addItem, setAddItem]=useState(false);
   
+  const handleddItem=()=>{
+    setAddItem(!addItem)
+  }
+
   const handleChange=(e)=>{
     setLista([...lista, e])
     console.log(lista)
@@ -39,24 +45,33 @@ export const Home =()=> {
         <Tab.Navigator screenOptions={({route})=>({
         tabBarIcon:({focused, color, size})=>{
           let iconName;
+
           if(route.name === "Lista"){
             iconName = focused
-            ? "ios-send"
-            : "ios-send-outline";
-
+            ? "ios-cart"
+            : "ios-cart-outline";
           }else if(route.name === "About"){
-            iconName = "logo-octocat";
+            iconName = "ios-person-circle-sharp";
+          }
+          else if(route.name === "Tienda"){
+            iconName = "ios-game-controller";
           }
           return<Ionicons name={iconName} size={size} color={color} />
         },
         tabBarActiveTintColor:"blue",
         tabBarInactiveTintColor:"grey",
-      })}>
-        <Tab.Screen options={{ headerShown: false }} name="Lista" children={()=> <Lista onChange={handleSignOut} />}/>         
+        })}>
+      
+        <Tab.Screen options={{ headerShown: false }} name="Tienda" children={()=> <Shop onChange={handleSignOut} />} />         
+        {addItem
+        ?
+        <Tab.Screen options={{ headerShown: false }} name="Lista" children={()=> <CreateItem onChange={handleSignOut} onItem={handleddItem} />}/>         
+        :
+        <Tab.Screen options={{ headerShown: false }} name="Lista" children={()=> <Lista onChange={handleSignOut}  onItem={handleddItem}/>}/>         
+        }
         <Tab.Screen options={{ headerShown: false }} name="About" children={()=> <About onChange={handleSignOut} />} /> 
               
-      </Tab.Navigator>  
-             
+      </Tab.Navigator>               
     </NavigationContainer>
   );
 }

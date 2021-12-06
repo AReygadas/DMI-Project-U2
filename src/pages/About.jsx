@@ -6,12 +6,15 @@ import { Titulo2, Titulo,FotoPerfil,BtnA,BtnLogOut } from '../styles/GlobaStyles
 import * as ImagePicker from 'expo-image-picker';
 import {fd, st, auth} from '../../firebase'
 import Logo from '../images/ut0000.png'
+import i18n from '../../localization/i18n'
 
 export const About=(props)=>{
+
+
   const [item, setItem] = useState([]);
   const [image, setImage] = useState('');
 
-
+//CUANDO CARGA LA PAGINA
 useEffect(() => {
  var userL = auth.currentUser.uid; 
   fd.collection("perfiles")
@@ -32,7 +35,7 @@ useEffect(() => {
    });
 },[])
 
-
+//CUANDO ACTULIZA LA FOTO
   const handleUpdate = async (p,ava) => {
     const userRef = fd.collection("perfiles").doc(p.id);
     await userRef.set({
@@ -46,19 +49,24 @@ useEffect(() => {
   };
 
 
+//CUANDO ABRIMOS LA GALERIA
   let openImagePickerAsync = async (p) => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
       return;
     }
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    const res = await uploadImage(pickerResult.uri,"avatars", auth.currentUser.uid)
-    
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      }); 
+    const res = await uploadImage(pickerResult.uri,"avatars", auth.currentUser.uid)    
     handleUpdate(p,res.url)
   }
 
-
+  
   let openCameraPickerAsync = async (p) => {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
     if (permissionResult.granted === false) {
@@ -70,6 +78,7 @@ useEffect(() => {
     setImage(res.url)
     handleUpdate(p,res.url)
   }
+
  
 const fileToBlob = async(path)=>{
   const file = await fetch(path)

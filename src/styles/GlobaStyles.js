@@ -1,4 +1,4 @@
-import styled,{keyframes} from 'styled-components'
+import styled from 'styled-components'
 
 
 export const Titulo=styled.Text`
@@ -6,8 +6,7 @@ export const Titulo=styled.Text`
   font-size: 30px;
   text-align: center;
   width: 90%;
-  background:rgba(0,0,0,0.5);
-  
+  background:rgba(0,0,0,0.5);  
 `;
 
 export const Titulo2=styled.Text`
@@ -81,7 +80,7 @@ export const BtnB=styled.Text`
 export const Elemento = styled.Text`
   text-align: center;
   color: white;
-  font-size: 20;
+  font-size: 20px;
   align-self: center; 
   margin:3px;
 `;
@@ -104,7 +103,7 @@ export const BtnLog =styled.Text`
   letter-spacing: 3;
   border-radius: 15;
   background-color:transparent;
-  width: 50%;
+  width: 60%;
   align-self: center;
   font-size:25;
   padding-top:5;
@@ -171,3 +170,34 @@ export const BtnGoogle=styled.Text`
   border-radius: 15px;
   padding:0px 15px 0px 15px;
 `;
+
+export const TabContainer = styled.View` 
+  padding-top:30px ;
+  color: aqua;
+  width: 100%;
+  height: 100%;
+`;
+
+export const ImagePng=styled.View` 
+    position: absolute;
+    right: 5px;
+    width: 250px;
+    height: 250px;
+    margin: 30px;
+    box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    borderTopWidth: 1px; 
+    borderTopColor: rgba(255,255,255,0.5);
+    borderLeftWidth: 1px; 
+    borderLeftColor: rgba(255,255,255,0.5);
+`;
+export const ImageL=styled.Image` 
+    
+    width: 246px;
+    height: 246px;
+  `;

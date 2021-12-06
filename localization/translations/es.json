@@ -1,3 +1,13 @@
 {
-    "greeting":"Hola Mundo"
+    "SigIn":"Entrar",
+    "SignUp":"Registrarme",
+    "User":"Usuario",
+    "Pass":"Contraseña",
+    "NewCount":"un no tienes cuenta?",
+
+    "Name":"Nombre",
+    "Mail":"Correo",
+    "Phone": "Telefono",
+    "Pass2":"Confirmar Contraseña",
+    "alert":"Las contraseñas no existen"
 }

@@ -1,3 +1,13 @@
 {
-    "greeting":"Hellow word"
+    "SigIn":"SignIn",
+    "SignUp":"SignUp",
+    "User":"User",
+    "Pass":"Password",
+    "NewCount":"Don't have an account?",
+    
+    "Name":"Name",
+    "Mail":"E-mail",
+    "Phone": "Phone",
+    "Pass2":"Confirm Password",
+    "alert":"Password Not Mtch"
 }

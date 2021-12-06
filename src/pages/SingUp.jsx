@@ -5,7 +5,7 @@ import {  Titulo,InputA, BtnLog,Cristal } from "../styles/GlobaStyles";
 import { LinearGradient } from "expo-linear-gradient";
 import {auth,fd} from "../../firebase";
 import Bg0 from '../images/bg3.jpg'
-
+import i18n from '../../localization/i18n'
 
 export const SignUp = () => {
 
@@ -58,32 +58,32 @@ export const SignUp = () => {
     <ImageBackground source={Bg0} resizeMode="cover" style={styles.image} blurRadius={1}>
     
       <Cristal>
-      <Titulo>SignUp</Titulo>
+      <Titulo>{i18n.t("SignUp")}</Titulo>
       <InputA value={datos.nombre} onChangeText={text=>handleChangeState('nombre', text)}
         placeholderTextColor="gray" 
-        placeholder="Nombre"
+        placeholder={i18n.t("Name")}
       />
       <InputA value={email} onChangeText={(text)=>{handleChangeState('correo', text),setEmail(text)}}
         placeholderTextColor="gray" 
-        placeholder="Correo"
+        placeholder={i18n.t("Mail")}
       />
       <InputA value={datos.telefono} onChangeText={text=>handleChangeState('telefono', text)}
         placeholderTextColor="gray" 
-        placeholder="Telefono"
+        placeholder={i18n.t("Phone")}
       />
       <InputA  value={password} onChangeText={text=>setPassword(text)} 
         secureTextEntry={true} 
         placeholderTextColor="gray" 
-        placeholder="Contraseña"
+        placeholder={i18n.t("Pass")}
       />
       <InputA  value={passwordC} onChangeText={text=>setPasswordC(text)} 
         secureTextEntry={true} 
         placeholderTextColor="gray" 
-        placeholder="Repite Contraseña"
+        placeholder={i18n.t("Pass2")}
       />
       {pp
        ?<Text></Text>
-       :<Text style={{color:'red'}}>Las contraseñas no coinciden</Text>
+       :<Text style={{color:'red'}}>{i18n.t("alert")}</Text>
       }
       <LinearGradient 
         colors={['#33E6FF', '#3b5998', '#192f6a'] }
@@ -92,7 +92,7 @@ export const SignUp = () => {
         locations={[0,0.5,1]}
       >
       <BtnLog onPress={handleSignUp}>
-        SingUp
+      {i18n.t("SignUp")}
       </BtnLog>
       </LinearGradient>
       </Cristal>

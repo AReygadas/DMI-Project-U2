@@ -8,7 +8,7 @@ import {ImageBackground,
   TextInput,
   ScrollView,
 }from 'react-native'
-import Bg2 from '../images/bg2.jpg'
+import Bg2 from '../images/bg5.png'
 import { BtnB, Titulo,Contai, Container,BtnLogOut} from '../styles/GlobaStyles'
 import {fd, db, auth} from '../../firebase'
 import { ListItem, Icon } from 'react-native-elements';
@@ -27,6 +27,7 @@ export const Lista=(props)=>{
     const handleChangeState=(name, value)=>{
       setVal({...val, [name]: value})
     }
+
 
     const Createitem =  async () => {
       if (val.desc === "") {
@@ -53,7 +54,6 @@ export const Lista=(props)=>{
     };  
   
   const handleUpdate = async(id, p) => {
-
     const userRef = fd.collection("gastos").doc(id);
     await userRef.set({
       user:p.user,
@@ -109,7 +109,8 @@ export const Lista=(props)=>{
             start={{x: 0.0, y: 0.75}} end={{x: 0.5, y: 0.8}}
             locations={[0,0.5,1]}
           >
-          <BtnB onPress={() => Createitem()}>Agregar</BtnB>
+            <BtnB onPress={() => { props.onItem()}}>Nuevo</BtnB>
+          {/* <BtnB onPress={() => Createitem()}>Agregar</BtnB> */}
           </LinearGradient>
             <Titulo>Lista</Titulo>
           {item.map((p)=>  {
@@ -137,8 +138,7 @@ export const Lista=(props)=>{
                   type='material'
                   color='#c90505'
                   onPress={() => handleDelete(p.id)} 
-                />
-                      
+                />                      
                 </ListItem>    
                 )
               }
