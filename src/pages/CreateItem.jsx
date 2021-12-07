@@ -22,7 +22,59 @@ export const CreateItem=(props)=>{
     setVal({...val, [name]: value})
   }   
 
-//CUANDO ACTULIZA LA FOTO
+//CUANDO ABRIMOS LA GALERIA
+let openImagePickerAsync = async () => {
+  let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  if (permissionResult.granted === false) {
+    alert("Permission to access camera roll is required!");
+    return;
+  }
+  let pickerResult = await ImagePicker.launchImageLibraryAsync({
+  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 1,
+  });        
+  setImage(pickerResult.uri);
+}
+
+//CUANDO ABRIMOS LA CAMRA
+let openCameraPickerAsync = async () => {
+  let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+  if (permissionResult.granted === false) {
+     alert("Permission to access camera roll is required!");
+     return;
+  }
+  let pickerResult = await ImagePicker.launchCameraAsync();
+  const res = await uploadImage(pickerResult.uri,"Items", auth.currentUser.uid)
+  setImage(res.url)
+  handleUpdate(p,res.url)
+}
+
+//SUBIMOS LA IMAGEN AL STORAGE DE FIREBASE
+const uploadImage = async(image, path, name)=>{
+  const result = {statusResponse: false, error: null, url:null}
+  const ref = st.ref(path).child(name)
+  const blob = await fileToBlob(image)
+  try{
+      await ref.put(blob)
+      const url = await st.ref(`${path}/${name}`).getDownloadURL()
+      result.statusResponse =true
+      result.url = url
+  }catch(error){
+      result.error = error
+  }
+  return result
+}
+
+//OBTIENE EL ARCHIVO DE LA URL Y LO PREPARA PARA SUBIRLO A FIREBASE
+const fileToBlob = async(path)=>{
+  const file = await fetch(path)
+  const blob = await file.blob()
+  return blob
+}
+
+//CQUANDO ACTULIZA LA FOTO
   const handleUpdate = async (p,ava) => {
     const userRef = fd.collection("Items").doc(p.id);
     await userRef.set({
@@ -35,59 +87,16 @@ export const CreateItem=(props)=>{
   //useEffect()    
   };
 
-//CUANDO ABRIMOS LA GALERIA
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });        
-    setImage(pickerResult.uri)
-    
-    //const res = await uploadImage(pickerResult.uri,"avatars", auth.currentUser.uid)
-    //handleUpdate(p,res.url)
+  const handleGuardar= async()=>{
+      try{
+        const res = await uploadImage(image,"Items", val.ID)
+        handleUpdate(p,res.url)        
+        
+        
+      }catch(e){
+        console.log()
+      }
   }
-
-
-  let openCameraPickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    if (permissionResult.granted === false) {
-       alert("Permission to access camera roll is required!");
-       return;
-    }
-    let pickerResult = await ImagePicker.launchCameraAsync();
-    const res = await uploadImage(pickerResult.uri,"avatars", auth.currentUser.uid)
-    setImage(res.url)
-    handleUpdate(p,res.url)
-  }
- 
-const fileToBlob = async(path)=>{
-  const file = await fetch(path)
-  const blob = await file.blob()
-  return blob
-}
-
-const uploadImage = async(image, path, name)=>{
-    const result = {statusResponse: false, error: null, url:null}
-    const ref = st.ref(path).child(name)
-    const blob = await fileToBlob(image)
-    try{
-        await ref.put(blob)
-        const url = await st.ref(`${path}/${name}`).getDownloadURL()
-        result.statusResponse =true
-        result.url = url
-    }catch(error){
-        result.error = error
-    }
-    return result
-}
-
     return(
         <ImageBackground source={Bg2} resizeMode="cover" style={styles.image}>                  
             <ImagePng>
@@ -116,7 +125,7 @@ const uploadImage = async(image, path, name)=>{
             <Contai 
                 placeholderTextColor="gray" 
                 placeholder="ID"
-                style={styles.input}  onChangeText={(e)=>handleChangeState('costo', e)} 
+                style={styles.input} value={val.ID} onChangeText={(e)=>handleChangeState('ID', e)} 
             />
 
             <Contai 
@@ -128,13 +137,13 @@ const uploadImage = async(image, path, name)=>{
             <Contai 
                 placeholderTextColor="gray" 
                 placeholder="Descripcion"
-                style={styles.input}  onChangeText={(e)=>handleChangeState('costo', e)} 
+                style={styles.input}  onChangeText={(e)=>handleChangeState('descripcion', e)} 
             />        
         
             <Contai 
                 placeholderTextColor="gray" 
                 placeholder="cantidad"
-                style={styles.input}  onChangeText={(e)=>handleChangeState('costo', e)} 
+                style={styles.input}  onChangeText={(e)=>handleChangeState('cantidad', e)} 
             />        
         
         <LinearGradient 
@@ -143,7 +152,7 @@ const uploadImage = async(image, path, name)=>{
             start={{x: 0.0, y: 0.75}} end={{x: 0.5, y: 0.8}}
             locations={[0,0.5,1]}
           >
-        <BtnB onPress={() => { props.onItem()}}>Agregar</BtnB>
+        <BtnB onPress={() => handleGuardar()}>Agregar</BtnB>
         </LinearGradient>
         <LinearGradient 
             colors={['#ffad33', '#be5907','#c21515'] }

@@ -16,42 +16,41 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export const Lista=(props)=>{
 
-    const [item, setItem] = useState([]);
-    const [val, setVal]=useState({
-      user:'',
-      desc:'',
-      costo:'',
-      status:false      
-    });
-    
-    const handleChangeState=(name, value)=>{
-      setVal({...val, [name]: value})
-    }
-
-
-    const Createitem =  async () => {
-      if (val.desc === "") {
-        alert("please provide a name");
-      } else {
+  const [item, setItem] = useState([]);
+  const [val, setVal]=useState({
+    user:'',
+    desc:'',
+    costo:'',
+    status:false      
+  });
   
-        try {
-          console.log(val);
-        //Guardar en bd
-          // const Ref = db.ref("gastos")
-          // Ref.push(val)
-        // gusrdar en fireStore
-          await fd.collection("gastos").add({
-            user: val.user,
-            desc: val.desc,
-            costo: val.costo,
-            status: false
-          });
-          setVal({...val,costo:"",desc:""})
-        } catch (error) {
-          console.log(error)
-        }
+  const handleChangeState=(name, value)=>{
+    setVal({...val, [name]: value})
+  
+  }
+
+  const Createitem =  async () => {
+    if (val.desc === "") {
+      alert("please provide a name");
+    } else {
+       try {
+        console.log(val);
+      //Guardar en bd
+        // const Ref = db.ref("gastos")
+        // Ref.push(val)
+      // gusrdar en fireStore
+        await fd.collection("gastos").add({
+          user: val.user,
+          desc: val.desc,
+          costo: val.costo,
+          status: false
+        });
+        setVal({...val,costo:"",desc:""})
+      } catch (error) {
+        console.log(error)
       }
-    };  
+    }
+  };  
   
   const handleUpdate = async(id, p) => {
     const userRef = fd.collection("gastos").doc(id);
