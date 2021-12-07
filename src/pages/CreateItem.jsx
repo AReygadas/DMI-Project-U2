@@ -1,25 +1,49 @@
-import React,{useState} from "react";
-import { Text, ImageBackground, StyleSheet,Image } from "react-native";
+import React,{useState,useEffect} from "react";
+import {Text,View, Picker, ImageBackground, StyleSheet,Image } from "react-native";
 import Bg2 from '../images/bg4.jpg'
 import { Icon } from 'react-native-elements'
-import {ImagePng, Contai,BtnB, ImageL} from '../styles/GlobaStyles'
+import {ImagePng, Contai,BtnB,Contenedor01, ImageL, VstPik} from '../styles/GlobaStyles'
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from 'expo-image-picker';
+import {fd, st, auth} from '../../firebase'
+import { BackgroundImage } from "react-native-elements/dist/config";
 
 export const CreateItem=(props)=>{
-    
+
     const [image, setImage] = useState('');
     const [val, setVal]=useState({
         ID:'',
         costo:'',
         descripcion:'',
-        cantidad:0,
-        img:'',      
+        cantidad:'',
+        img:'',  
+        category:'consola',    
       });
 
- //ACTUALIZANDO EL ESTADO
+          
+useEffect(() => {  
+console.log("Ptm")
+   fd.collection("Items").where("ID","==",props.edi)
+   .onSnapshot((querySnapshot) => {
+     
+     querySnapshot.docs.forEach((doc) => {
+       console.log(doc)
+       const { ID, cantidad, costo, descripcion, img, category } = doc.data();
+       handleChangeState('ID',ID)
+       handleChangeState('cantidad',cantidad)
+       handleChangeState('costo',costo)
+       handleChangeState('descripcion',descripcion)
+       handleChangeState('img',img)    
+     });
+   });
+   console.log(val);
+ }, []);
+
+
+  //ACTUALIZANDO EL ESTADO
  const handleChangeState=(name, value)=>{
     setVal({...val, [name]: value})
+   
   }   
 
 //CUANDO ABRIMOS LA GALERIA
@@ -45,17 +69,24 @@ let openCameraPickerAsync = async () => {
      alert("Permission to access camera roll is required!");
      return;
   }
-  let pickerResult = await ImagePicker.launchCameraAsync();
-  const res = await uploadImage(pickerResult.uri,"Items", auth.currentUser.uid)
-  setImage(res.url)
-  handleUpdate(p,res.url)
+  let pickerResult = await ImagePicker.launchCameraAsync({
+  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 1,
+  });        
+  setImage(pickerResult.uri);
 }
 
 //SUBIMOS LA IMAGEN AL STORAGE DE FIREBASE
-const uploadImage = async(image, path, name)=>{
+const uploadImage = async(img, path, name)=>{
+  console.log(img, path, name)
   const result = {statusResponse: false, error: null, url:null}
+  console.log(1)
   const ref = st.ref(path).child(name)
-  const blob = await fileToBlob(image)
+  console.log(2)
+  const blob = await fileToBlob(img)
+  console.log(3)
   try{
       await ref.put(blob)
       const url = await st.ref(`${path}/${name}`).getDownloadURL()
@@ -75,28 +106,37 @@ const fileToBlob = async(path)=>{
 }
 
 //CQUANDO ACTULIZA LA FOTO
-  const handleUpdate = async (p,ava) => {
-    const userRef = fd.collection("Items").doc(p.id);
-    await userRef.set({
-      avatar:ava,
-      correo:p.correo,
-      nombre:p.nombre,
-      telefono:p.telefono,
-      user:auth.currentUser.uid
+  const Createitem = async (ava) => {
+    await fd.collection("Items").add({
+      ID:val.ID,
+      costo:val.costo,
+      descripcion:val.descripcion,
+      cantidad:val.cantidad,
+      img:ava,
+      category:val.category     
     });
   //useEffect()    
   };
 
   const handleGuardar= async()=>{
-      try{
-        const res = await uploadImage(image,"Items", val.ID)
-        handleUpdate(p,res.url)        
-        
-        
+      try{        
+
+        const res = await uploadImage(image,"Items", val.ID);
+        Createitem(res.url);               
+        setVal({
+          ID:'',
+          costo:'',
+          descripcion:'',
+          cantidad:'',
+          img:'',      
+        });
+        setImage('');
+      
       }catch(e){
         console.log()
       }
   }
+
     return(
         <ImageBackground source={Bg2} resizeMode="cover" style={styles.image}>                  
             <ImagePng>
@@ -121,7 +161,7 @@ const fileToBlob = async(path)=>{
               title='Galery' 
               size= {39}
               onPress={()=>openImagePickerAsync()} />   
-            
+            <Contenedor01></Contenedor01>
             <Contai 
                 placeholderTextColor="gray" 
                 placeholder="ID"
@@ -131,21 +171,34 @@ const fileToBlob = async(path)=>{
             <Contai 
                 placeholderTextColor="gray" 
                 placeholder="Costo"
-                style={styles.input}  onChangeText={(e)=>handleChangeState('costo', e)} 
+                style={styles.input}  value={val.costo} onChangeText={(e)=>handleChangeState('costo', e)} 
             />
         
             <Contai 
                 placeholderTextColor="gray" 
                 placeholder="Descripcion"
-                style={styles.input}  onChangeText={(e)=>handleChangeState('descripcion', e)} 
+                style={styles.input}  value={val.descripcion} onChangeText={(e)=>handleChangeState('descripcion', e)} 
             />        
         
             <Contai 
                 placeholderTextColor="gray" 
                 placeholder="cantidad"
-                style={styles.input}  onChangeText={(e)=>handleChangeState('cantidad', e)} 
-            />        
-        
+                style={styles.input}  value={val.cantidad} onChangeText={(e)=>handleChangeState('cantidad', e)} 
+            />     
+
+<VstPik>
+<Picker
+
+    onValueChange={(e)=>handleChangeState('category', e)}
+    style={{backgroundColor:'red', height: 50, width: 200 }}
+    itemStyle={{ backgroundColor: "grey", color: "blue", fontFamily:"Ebrima", fontSize:17 }}
+>
+<Picker.Item label="Consola" color="black" value="Consola" />
+<Picker.Item label="Juego" color="black" value="Juego" />
+<Picker.Item label="Ammibo" color="black" value="Ammibo" />
+</Picker>
+</VstPik>
+   
         <LinearGradient 
             colors={['#33ff55', '#077bbe','#192f6a'] }
             style={styles.gradient}
@@ -164,11 +217,10 @@ const fileToBlob = async(path)=>{
         </LinearGradient>
         </ImageBackground>
     )
-
 }
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#fff',
+      
       alignItems: 'center',
       justifyContent: 'center',
     },  
@@ -180,9 +232,9 @@ const styles = StyleSheet.create({
     input: {
           height: 40,
           width: '73%',
-          marginTop: 60,
+          marginTop: 10,
           borderWidth: 1,
-          padding: 10,        
+          padding: 10,     
         },
           gradient:{
           margin: 20,
@@ -190,4 +242,5 @@ const styles = StyleSheet.create({
           borderRadius:25,
           alignSelf:'center',          
         }, 
+       
     });

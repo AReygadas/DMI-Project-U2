@@ -10,8 +10,8 @@ import {ImageBackground,
 }from 'react-native'
 import Bg2 from '../images/bg5.png'
 import { BtnB, Titulo,Contai, Container,BtnLogOut} from '../styles/GlobaStyles'
-import {fd, db, auth} from '../../firebase'
-import { ListItem, Icon } from 'react-native-elements';
+import {fd, db,st, auth} from '../../firebase'
+import { ListItem, Icon, Avatar  } from 'react-native-elements';
 import { LinearGradient } from "expo-linear-gradient";
 
 export const Lista=(props)=>{
@@ -53,6 +53,8 @@ export const Lista=(props)=>{
   };  
   
   const handleUpdate = async(id, p) => {
+    
+
     const userRef = fd.collection("gastos").doc(id);
     await userRef.set({
       user:p.user,
@@ -63,46 +65,62 @@ export const Lista=(props)=>{
     useEffect()    
   };
   
-  const handleDelete= async(id)=>{
-    const fdRef= fd.collection('gastos').doc(id);
+  const handleDelete= async(id,nam)=>{
+     const fdRef= fd.collection('Items').doc(id);
     await fdRef.delete();
+    const ref = st.ref('Items').child(nam)
+    await ref.delete()
   }
 
- useEffect(() => {
+//  useEffect(() => {
+//   var userL = auth.currentUser.uid; 
+//   setVal({...val, 'user': userL}) 
+  
+//    fd.collection("Items")
+//    .where("user","==",userL)
+//    .onSnapshot((querySnapshot) => {
+//      const items = [];
+//      querySnapshot.docs.forEach((doc) => {
+//        const { user, desc, costo,status } = doc.data();
+//        items.push({
+//          id: doc.id,
+//          user,
+//          desc,
+//          costo,
+//          status,
+//        });
+//      });
+//      setItem(items);
+//    });
+//  }, []);
+    
+useEffect(() => {
   var userL = auth.currentUser.uid; 
   setVal({...val, 'user': userL}) 
   
-   fd.collection("gastos")
-   .where("user","==",userL)
+   fd.collection("Items")
    .onSnapshot((querySnapshot) => {
      const items = [];
      querySnapshot.docs.forEach((doc) => {
-       const { user, desc, costo,status } = doc.data();
+       const { ID, cantidad, costo, descripcion, img } = doc.data();
        items.push({
          id: doc.id,
-         user,
-         desc,
+         ID,
+         cantidad,
          costo,
-         status,
+         descripcion,
+         img
        });
      });
      setItem(items);
    });
  }, []);
-    
+
     return(
       <ImageBackground source={Bg2} resizeMode="cover" style={styles.image}>
         <ScrollView >
           <BtnLogOut onPress={()=>{props.onChange()}}>SingnOut</BtnLogOut>
-          <Container 
-            placeholderTextColor="gray" 
-            placeholder="Descripcion"
-            style={styles.input} value={val.desc} onChangeText={(e)=>handleChangeState('desc', e)} />
-          <Contai 
-            placeholderTextColor="gray" 
-            placeholder="Costo"
-            style={styles.input} value={val.costo} onChangeText={(e)=>handleChangeState('costo', e)} />
-          <LinearGradient 
+              <LinearGradient 
             colors={['#33ff55', '#077bbe','#192f6a'] }
             style={styles.gradient}
             start={{x: 0.0, y: 0.75}} end={{x: 0.5, y: 0.8}}
@@ -116,19 +134,22 @@ export const Lista=(props)=>{
             console.log(p)
               return(
                 <ListItem key={p.id} bottomDivider>
+                   <Avatar  source={{uri: p.img}} />
                 <ListItem.Content>
-                  <ListItem.Title>{p.desc}</ListItem.Title>
+                  <ListItem.Title>{p.descripcion}</ListItem.Title>
                   <ListItem.Subtitle>${p.costo}pesos</ListItem.Subtitle>
+                  <ListItem.Subtitle>Cantidad: {p.cantidad}</ListItem.Subtitle>
                 </ListItem.Content>
+            
                 <Icon
                   raised
-                  name='credit-card'
+                  name='edit'
                   type='font-awesome'
-                  color={p.status
+                  color={true
                   ? '#49CA09'
                   : '#0581c9'
                   }
-                  onPress={()=>handleUpdate(p.id,p)}
+                  onPress={()=>props.edi(p.ID)}
                 />
 
                 <Icon
@@ -136,7 +157,7 @@ export const Lista=(props)=>{
                   name='delete'
                   type='material'
                   color='#c90505'
-                  onPress={() => handleDelete(p.id)} 
+                  onPress={() => handleDelete(p.id,p.ID)} 
                 />                      
                 </ListItem>    
                 )

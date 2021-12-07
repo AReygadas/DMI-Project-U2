@@ -19,14 +19,16 @@ export const Home =()=> {
   const navigation = useNavigation();
   const[lista, setLista]= useState([]);
   const[addItem, setAddItem]=useState(false);
-  
+  const[p,setP]= useState('');
+
   const handleddItem=()=>{
     setAddItem(!addItem)
   }
+  
 
   const handleChange=(e)=>{
     setLista([...lista, e])
-    console.log(lista)
+ 
   }
 
   const handleSignOut = () => {
@@ -39,6 +41,13 @@ export const Home =()=> {
         alert(error.message);
       });
   };
+  
+  const handleEdi2=(e)=>{
+    console.log(e);
+ setP(e);
+ setAddItem(!addItem);
+   
+  }
 
     return (
     <NavigationContainer independent={true}>
@@ -65,9 +74,9 @@ export const Home =()=> {
         <Tab.Screen options={{ headerShown: false }} name="Tienda" children={()=> <Shop onChange={handleSignOut} />} />         
         {addItem
         ?
-        <Tab.Screen options={{ headerShown: false }} name="Lista" children={()=> <CreateItem onChange={handleSignOut} onItem={handleddItem} />}/>         
+        <Tab.Screen options={{ headerShown: false }} name="Lista" children={()=> <CreateItem onChange={handleSignOut} onItem={handleddItem} edi={p} />}/>         
         :
-        <Tab.Screen options={{ headerShown: false }} name="Lista" children={()=> <Lista onChange={handleSignOut}  onItem={handleddItem}/>}/>         
+        <Tab.Screen options={{ headerShown: false }} name="Lista" children={()=> <Lista onChange={handleSignOut}  onItem={handleddItem} edi={handleEdi2}  />}/>         
         }
         <Tab.Screen options={{ headerShown: false }} name="About" children={()=> <About onChange={handleSignOut} />} /> 
               

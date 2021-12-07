@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {fd, st, auth} from '../../firebase'
 import Logo from '../images/ut0000.png'
 import i18n from '../../localization/i18n'
-
+import { Icon } from 'react-native-elements'
 export const About=(props)=>{
 
 
@@ -106,10 +106,7 @@ const uploadImage = async(image, path, name)=>{
   return(
     <ImageBackground source={Bg} resizeMode="cover" style={styles.image}>
    
-   <Image
-       style={styles.tinyLogo}
-       source={Logo}
-      />
+
        {item.map((p)=>  {
      
          return(
@@ -120,8 +117,31 @@ const uploadImage = async(image, path, name)=>{
               style={styles.thumbnail}
             />
           </FotoPerfil>
-          <BtnA onPress={()=>openImagePickerAsync(p)}>Galeria</BtnA>
-          <BtnA onPress={()=>openCameraPickerAsync(p)}>Camara</BtnA>
+          <Icon
+              raised
+              name='camera'
+              type='font-awesome'
+              color='#f50'
+              title='Camera' 
+              size= {39}
+              style={{position:'absolute'}}
+              onPress={()=>openCameraPickerAsync()}              
+              />               
+
+              <Icon
+              raised
+              name='image'
+              type='font-awesome'
+              color='#0044ff'
+              title='Galery' 
+              size= {39}              
+              style={{position:'absolute', top:'50px'}}
+              onPress={()=>openImagePickerAsync()} />   
+   <Image
+       style={styles.tinyLogo}
+       source={Logo}
+      />
+        
           <Titulo2>{p.nombre}</Titulo2>
           <Titulo2>{p.correo}</Titulo2>
           <Titulo2>{p.telefono}</Titulo2>

@@ -24,9 +24,9 @@ export const FotoPerfil=styled.View`
     height: 150px;
     background-color: white;
     align-self: center;
-    margin-bottom: 30px;
-    margin-top: -200;
+    top:90px;
     border-radius: 90;
+    position: absolute;
 
     
 `;
@@ -63,6 +63,21 @@ export const Contai = styled.TextInput`
   width: 30%;
  display: flex;
 `;
+export const VstPik = styled.View`
+  background-color: white;
+  border-radius: 25;
+  text-align: center;
+  color: blue;
+  font-weight: bold;
+  align-self: center;
+  width: 70%;
+  height: 50px;
+  margin-top: 15px;
+ display: flex;
+ padding-top: -50;
+`;
+
+
 
 export const BtnB=styled.Text`
   text-align: center;
@@ -195,6 +210,10 @@ export const ImagePng=styled.View`
     borderTopColor: rgba(255,255,255,0.5);
     borderLeftWidth: 1px; 
     borderLeftColor: rgba(255,255,255,0.5);
+`;
+
+export const Contenedor01=styled.View` 
+  padding-top: 50px;
 `;
 export const ImageL=styled.Image` 
     
